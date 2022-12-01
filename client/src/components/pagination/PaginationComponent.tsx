@@ -17,7 +17,6 @@ const PaginationComponent : React.FC = () => {
 
   const currentNumber : number = useAppSelector(state => state.data.currentPage);
   const length : number = useAppSelector(state => state.data.pagesNumber);
-  const myData : ITableData[] = useAppSelector(state => state.data.currentData);
   const allData : ITableData[][] | null = useAppSelector(state => state.data.allData);
 
   const currentFilter : IFilter = useAppSelector(state => state.filter.filterType);

@@ -1,16 +1,14 @@
 import React from 'react';
 import './TableComponent.scss';
-import tableData from "./data";
-import processDataPagination from "../../utils/processPaginationData.util";
-import { ITableData } from "../../types/data.types";
+import TableHeaderComponent from "./subcomponents/table-header/TableHeaderComponent";
+import TableContentComponent from "./subcomponents/table-content/TableContentComponent";
 
 const TableComponent : React.FC = () => {
 
-  console.log(processDataPagination<ITableData>(tableData, 14));
-
   return(
     <div className="table">
-
+      <TableHeaderComponent />
+      <TableContentComponent />
     </div>
   );
 };
