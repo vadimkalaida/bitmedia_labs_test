@@ -1,0 +1,27 @@
+.footer {
+  width: 100%;
+  min-height: 57px;
+  background: #1C3B55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & p {
+    padding: 0;
+    margin: 0;
+    color: #fff;
+  }
+}
+
+.footerLogo {
+  font-size: 24px;
+}
+
+.footerText {
+  font-size: 16px;
+}

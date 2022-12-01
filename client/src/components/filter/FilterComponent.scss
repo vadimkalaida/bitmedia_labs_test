@@ -1,0 +1,56 @@
+.filterRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+.filterForm {
+  height: 48px;
+  background: #FFFFFF;
+  border: 1px solid #F1F1F1;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.filterInput {
+  width: 240px;
+  height: 70%;
+  font-size: 14px;
+  color: #232323;
+  padding-left: 15px;
+  padding-right: 15px;
+  outline: none;
+  border: none;
+  border-right: 1px solid #F1F1F1;
+  &::placeholder {
+    font-style: italic;
+    color: #979797;
+  }
+}
+
+.filterButton {
+  width: 48px;
+  height: 48px;
+  background: #3A80BA;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: .3s;
+  margin-left: 12px;
+  cursor: pointer;
+  &:hover {
+    background: transparent;
+    border: 1px solid #232323;
+    & svg path {
+      fill: #232323;
+    }
+  }
+  & svg {
+    width: 16px;
+    height: 16px;
+  }
+}

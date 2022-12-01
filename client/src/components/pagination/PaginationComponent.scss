@@ -1,0 +1,64 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 56px;
+}
+
+.paginationArrowButton {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  cursor: pointer;
+  background: transparent;
+  outline: none;
+  border: none;
+  & svg {
+    transition: .2s;
+    width: 24px;
+  }
+  &:first-child svg {
+    transform: rotate(90deg);
+  }
+  &:last-child svg {
+    transform: rotate(-90deg);
+  }
+  &.active {
+    pointer-events: none;
+    & svg path {
+      fill: #F1F1F1;
+    }
+  }
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.paginationButton {
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  border: 2px solid #F1F1F1;
+  border-radius: 8px;
+  transition: .3s;
+  margin-left: 8px;
+  font-size: 16px;
+  color: #1A1A1A;
+  cursor: pointer;
+  &:hover {
+    border-color: #232323;
+  }
+  &.active {
+    color: #fff;
+    background: #3A80BA;
+    border: 2px solid transparent;
+    pointer-events: none;
+  }
+  &:first-child {
+    margin-left: 0;
+  }
+}
