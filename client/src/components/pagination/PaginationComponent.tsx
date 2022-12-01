@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import './PaginationComponent.scss';
-import tableData from "../table/data";
-import processDataPagination from "../../utils/processPaginationData.util";
 import { ITableData } from "../../types/data.types";
 import convertNumberToArray from "../../utils/convertNumberToArray.util";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux.hooks";
@@ -10,10 +8,8 @@ import {bindActionCreators} from "redux";
 import {IFilter} from "../../types/filter.types";
 
 const PaginationComponent : React.FC = () => {
-  // const dataArr = useMemo(() => processDataPagination<ITableData>(tableData, 14), []);
   const [ lengthArr, setLengthArr ] = useState<number[] | null>(null);
   const pageSize = 14;
-  // const [ currentNumber, setCurrentNumber ] = useState<number>(1);
 
   const currentNumber : number = useAppSelector(state => state.data.currentPage);
   const length : number = useAppSelector(state => state.data.pagesNumber);
@@ -50,12 +46,8 @@ const PaginationComponent : React.FC = () => {
 
     if(isNext) {
       setDataAdapter(false, () => currentNumber < lengthArr[lengthArr.length - 1] ? currentNumber + 1 : currentNumber);
-      // setData(currentNumber < lengthArr[lengthArr.length - 1] ? currentNumber + 1 : currentNumber, pageSize, searchVal, currentFilter);
-      // setCurrentNumber(prev => prev < lengthArr[lengthArr.length - 1] ? prev + 1 : prev);
     } else {
       setDataAdapter(false, () => currentNumber > lengthArr[0] ? currentNumber - 1 : currentNumber);
-      // setData(currentNumber > lengthArr[0] ? currentNumber - 1 : currentNumber, pageSize, searchVal, currentFilter);
-      // setCurrentNumber(prev => prev > lengthArr[0] ? prev - 1 : prev);
     }
   };
 
