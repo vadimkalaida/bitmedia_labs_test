@@ -1,4 +1,7 @@
 const DataSchemaTemplate = require('../models/data.model');
+const axios = require('axios');
+const processEtherScanData = require('../utils/processData.util');
+const etherScanAPI = require('etherscan-api').init('Y63RZWY7UHPA61P3AWNNCD3N6UDVZ4R4AX');
 
 exports.getData = async (req, res) => {
   try {
@@ -9,10 +12,22 @@ exports.getData = async (req, res) => {
     // });
     //
     // await data1.save();
+    const etherScanResponse = await axios.get(`https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&boolean=true&apikey${ process.env.etherScanAPIKey }`);
 
-    const data = await DataSchemaTemplate.find();
+    const latestBlockNumber = await etherScanAPI.proxy.eth_blockNumber();
 
-    res.status(200).json({ data });
+    console.log(latestBlockNumber);
+
+    const api = await etherScanAPI.proxy.eth_getBlockByNumber(latestBlockNumber.result);
+    
+    if(etherScanResponse.status !== 200) {
+      res.status(etherScanResponse.status).json({error: etherScanResponse.statusText});
+      return;
+    }
+
+    const data = etherScanResponse && etherScanResponse.data ? processEtherScanData(etherScanResponse.data) : [];
+
+    res.status(200).json({ processed: data, data: etherScanResponse.data, api });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error });
