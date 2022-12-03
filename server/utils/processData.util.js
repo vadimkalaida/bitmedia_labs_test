@@ -15,11 +15,6 @@ const processItem = async(item, dataToProcess, previousBlockNumber) => {
       value: Number(web3Utils.fromWei(web3Utils.toBN(item.value))),
       transaction_fee: Number(web3Utils.fromWei(((web3Utils.hexToNumber(dataToProcess.baseFeePerGas) +
         (item.maxPriorityFeePerGas ? web3Utils.hexToNumber(item.maxPriorityFeePerGas) : item.maxFeePerGas ? web3Utils.hexToNumber(item.maxFeePerGas) : 0)) * web3Utils.hexToNumber(transactionReceipt.result.gasUsed)).toString()))
-      // transaction_fee: (((web3Utils.hexToNumber(dataToProcess.baseFeePerGas) * 0.000000001) +
-      //   (item.maxPriorityFeePerGas ? web3Utils.hexToNumber(item.maxPriorityFeePerGas) * 0.000000001 : item.maxFeePerGas ? web3Utils.hexToNumber(item.maxFeePerGas) * 0.000000001 : 0)) * web3Utils.hexToNumber(transactionReceipt.result.gasUsed)) * 0.000000001
-      // transaction_fee: ((web3Utils.hexToNumber(item.gasPrice) * 0.000000001) * web3Utils.hexToNumber(dataToProcess.gasUsed)) * 0.000000001
-      // transaction_fee: web3Utils.fromWei((web3Utils.hexToNumber(dataToProcess.gasUsed) * (web3Utils.hexToNumber(dataToProcess.baseFeePerGas)
-      //   + (item.maxPriorityFeePerGas ? web3Utils.hexToNumber(item.maxPriorityFeePerGas) : item.maxFeePerGas ? web3Utils.hexToNumber(item.maxFeePerGas) : 0))).toString())
     };
   } catch (err) {
     console.log(err);

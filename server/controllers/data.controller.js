@@ -1,5 +1,4 @@
 const DataSchemaTemplate = require('../models/data.model');
-const axios = require('axios');
 const processEtherScanData = require('../utils/processData.util');
 const getLatestBlock = require('../utils/getLatestBlock.util');
 const filterData = require('../utils/filter.util');

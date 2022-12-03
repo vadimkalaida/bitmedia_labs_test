@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import './PaginationComponent.scss';
 import { ITableData } from "../../types/data.types";
-import convertNumberToArray from "../../utils/convertNumberToArray.util";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux.hooks";
 import { dataActions } from "../../store/actions/data.action";
 import {bindActionCreators} from "redux";
-import {IFilter} from "../../types/filter.types";
 import PaginationControlsComponent from "./subcomponents/PaginationControlsComponent/PaginationControlsComponent";
 import usePagination from "../../hooks/pagination.hook";
-
+import { useFilterData } from "../../hooks/filter.hooks";
 
 export interface ISetDataAdapter {
   (isFiltering : boolean,
@@ -16,41 +14,24 @@ export interface ISetDataAdapter {
 }
 
 const PaginationComponent : React.FC = () => {
-  // const [ lengthArr, setLengthArr ] = useState<number[] | null>(null);
   const pageSize = 14;
-
   const { currentNumber, lengthArr } = usePagination();
 
-
-  // const currentNumber : number = useAppSelector(state => state.data.currentPage);
-  // const length : number = useAppSelector(state => state.data.pagesNumber);
   const allData : ITableData[][] | null = useAppSelector(state => state.data.allData);
 
-  const currentFilter : IFilter = useAppSelector(state => state.filter.filterType);
-  const searchVal : string = useAppSelector(state => state.filter.searchValue);
+  const filterData = useFilterData(pageSize);
 
   const dispatch = useAppDispatch();
-  const { setData, setAllData } = bindActionCreators(dataActions, dispatch);
+  const { setData } = bindActionCreators(dataActions, dispatch);
 
   const setDataAdapter : ISetDataAdapter = (isFiltering, getCurrentNumber) => {
     if(!allData) return;
     setData(isFiltering ? 1 : getCurrentNumber ? getCurrentNumber() : currentNumber, allData);
   };
 
-  useLayoutEffect(() => {
-    setAllData(searchVal, currentFilter.value, pageSize);
-  }, [currentFilter, searchVal]);
-
   useEffect(() => {
     if(allData) setDataAdapter(true);
   }, [allData]);
-
-  // useEffect(() => {
-  //   if(length) {
-  //     let myLength = convertNumberToArray(length, []);
-  //     setLengthArr(myLength);
-  //   }
-  // }, [length]);
 
   const switchCurrentNumber = (isNext : boolean) => {
     if(!lengthArr) return;
@@ -72,43 +53,16 @@ const PaginationComponent : React.FC = () => {
       </button>
       <div className="paginationControls">
         { currentNumber < 10 || lengthArr?.length < 11 ?
-          // <PaginationControlsComponent currentNumber={ currentNumber } />
-          null
+          <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={0} sliceSecond={10} DotsCondition={() => lengthArr?.length > 10 ? <p className="paginationDots">...</p> : null} />
            :
           <>
-            {
-              lengthArr?.slice(0, 3).map((item, index) =>
-                <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
-                  { item }
-                </button>
-              )
-            }
-            ...
+            <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={0} sliceSecond={3} DotsCondition={() => <p className="paginationDots">...</p>} />
             { lengthArr.length - currentNumber > 4 ?
-              <>
-                {
-                  lengthArr?.slice(currentNumber - 2, currentNumber + 1).map((item, index) =>
-                    <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
-                      { item }
-                    </button>
-                  )
-                }
-                ...
-              </>
+              <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={currentNumber - 2} sliceSecond={currentNumber + 1} DotsCondition={() => <p className="paginationDots">...</p>} />
               :
-              lengthArr?.slice(lengthArr?.length - 6, lengthArr?.length - 3).map((item, index) =>
-                <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
-                  { item }
-                </button>
-              )
+              <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={lengthArr?.length - 6} sliceSecond={lengthArr?.length - 3} DotsCondition={() => null} />
             }
-            {
-              lengthArr?.slice(lengthArr.length - 3, lengthArr.length).map((item, index) =>
-                <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
-                  { item }
-                </button>
-              )
-            }
+            <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={lengthArr?.length - 3} sliceSecond={lengthArr?.length} DotsCondition={() => null} />
           </>
         }
       </div>
