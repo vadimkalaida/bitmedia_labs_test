@@ -5,8 +5,8 @@ export interface ITableData {
   transaction_id: string,
   sender_address: string,
   recipient_address: string,
-  block_confirmations: string,
-  date: string,
+  block_confirmations: number,
+  date: Date,
   value: number,
   transaction_fee: number
 }

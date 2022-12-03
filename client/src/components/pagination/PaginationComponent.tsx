@@ -6,13 +6,24 @@ import { useAppSelector, useAppDispatch } from "../../hooks/redux.hooks";
 import { dataActions } from "../../store/actions/data.action";
 import {bindActionCreators} from "redux";
 import {IFilter} from "../../types/filter.types";
+import PaginationControlsComponent from "./subcomponents/PaginationControlsComponent/PaginationControlsComponent";
+import usePagination from "../../hooks/pagination.hook";
+
+
+export interface ISetDataAdapter {
+  (isFiltering : boolean,
+  getCurrentNumber?: () => number) : void
+}
 
 const PaginationComponent : React.FC = () => {
-  const [ lengthArr, setLengthArr ] = useState<number[] | null>(null);
+  // const [ lengthArr, setLengthArr ] = useState<number[] | null>(null);
   const pageSize = 14;
 
-  const currentNumber : number = useAppSelector(state => state.data.currentPage);
-  const length : number = useAppSelector(state => state.data.pagesNumber);
+  const { currentNumber, lengthArr } = usePagination();
+
+
+  // const currentNumber : number = useAppSelector(state => state.data.currentPage);
+  // const length : number = useAppSelector(state => state.data.pagesNumber);
   const allData : ITableData[][] | null = useAppSelector(state => state.data.allData);
 
   const currentFilter : IFilter = useAppSelector(state => state.filter.filterType);
@@ -21,7 +32,7 @@ const PaginationComponent : React.FC = () => {
   const dispatch = useAppDispatch();
   const { setData, setAllData } = bindActionCreators(dataActions, dispatch);
 
-  const setDataAdapter = (isFiltering : boolean, getCurrentNumber?: () => typeof currentNumber) => {
+  const setDataAdapter : ISetDataAdapter = (isFiltering, getCurrentNumber) => {
     if(!allData) return;
     setData(isFiltering ? 1 : getCurrentNumber ? getCurrentNumber() : currentNumber, allData);
   };
@@ -34,12 +45,12 @@ const PaginationComponent : React.FC = () => {
     if(allData) setDataAdapter(true);
   }, [allData]);
 
-  useEffect(() => {
-    if(length) {
-      let myLength = convertNumberToArray(length, []);
-      setLengthArr(myLength);
-    }
-  }, [length]);
+  // useEffect(() => {
+  //   if(length) {
+  //     let myLength = convertNumberToArray(length, []);
+  //     setLengthArr(myLength);
+  //   }
+  // }, [length]);
 
   const switchCurrentNumber = (isNext : boolean) => {
     if(!lengthArr) return;
@@ -60,11 +71,46 @@ const PaginationComponent : React.FC = () => {
         </svg>
       </button>
       <div className="paginationControls">
-        { lengthArr.map((item, index) =>
-          <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
-            { item }
-          </button>
-        ) }
+        { currentNumber < 10 || lengthArr?.length < 11 ?
+          // <PaginationControlsComponent currentNumber={ currentNumber } />
+          null
+           :
+          <>
+            {
+              lengthArr?.slice(0, 3).map((item, index) =>
+                <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
+                  { item }
+                </button>
+              )
+            }
+            ...
+            { lengthArr.length - currentNumber > 4 ?
+              <>
+                {
+                  lengthArr?.slice(currentNumber - 2, currentNumber + 1).map((item, index) =>
+                    <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
+                      { item }
+                    </button>
+                  )
+                }
+                ...
+              </>
+              :
+              lengthArr?.slice(lengthArr?.length - 6, lengthArr?.length - 3).map((item, index) =>
+                <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
+                  { item }
+                </button>
+              )
+            }
+            {
+              lengthArr?.slice(lengthArr.length - 3, lengthArr.length).map((item, index) =>
+                <button onClick={() => setDataAdapter(false, () => item)} key={ index } disabled={ item === currentNumber } className={`paginationButton ${ item === currentNumber ? 'active' : '' }`}>
+                  { item }
+                </button>
+              )
+            }
+          </>
+        }
       </div>
       <button className={`paginationArrowButton ${ lengthArr[lengthArr.length - 1] <= currentNumber ? 'active' : '' }`} onClick={() => switchCurrentNumber(true)}>
         <svg viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">

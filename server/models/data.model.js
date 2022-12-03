@@ -19,7 +19,7 @@ const DataSchema = new Schema({
     required: true
   },
   block_confirmations: {
-    type: String,
+    type: Number,
     required: true
   },
   timestamp: {

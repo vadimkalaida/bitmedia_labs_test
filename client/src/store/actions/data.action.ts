@@ -3,6 +3,8 @@ import {DataActionTypes, ITableData, TDataAction} from "../../types/data.types";
 import tableData from "../../components/table/data";
 import processDataPagination from "../../utils/processPaginationData.util";
 import filterData from "../../utils/filter.util";
+import axios from "../../api/axios";
+import { AxiosResponse } from 'axios';
 
 const setData = (currentPage: number, allData : ITableData[][] ) => {
   return (dispatch: Dispatch<TDataAction>) => {
@@ -17,33 +19,61 @@ const setData = (currentPage: number, allData : ITableData[][] ) => {
   }
 };
 
+interface IGetDataAxios {
+  transactions: ITableData[]
+}
+
+interface IGetDataAxiosRequestBody {
+  searchValue : string,
+  filterType : string
+}
+
 const setAllData = (searchValue : string, filterType : string, pageSize : number) => {
   return (dispatch: Dispatch<TDataAction>) => {
-    if(!tableData) {
-      throw new Error('Something is wrong with data');
-      return;
-    }
+    const reqBody : IGetDataAxiosRequestBody  = { searchValue, filterType };
+    axios.post('get_data', reqBody)
+      .then((res: AxiosResponse<IGetDataAxios>) => {
+        if(!res || !res.data || !res.data.transactions) {
+          throw new Error('Something is wrong with data');
+          return;
+        }
 
-    const data : ITableData[] = filterData(tableData, searchValue, filterType as keyof ITableData);
+        console.log(res.data, 'res.data');
 
-    if(!data) {
-      throw new Error('Something is wrong with filtering data');
-      return;
-    }
+        const data : ITableData[] = res.data.transactions.map(item => {
+          let myObj : ITableData | {} = {};
+          for(const key in item) {
+            if(key !== '__v' && key !== '_id') Object.assign(myObj, { [key]: item[key as keyof typeof item] });
+          }
+          return myObj as ITableData;
+        });
 
-    let processedData = processDataPagination<ITableData>(data, pageSize);
+        // const data : ITableData[] = filterData(res.data.transactions, searchValue, filterType as keyof ITableData);
 
-    console.log(processedData,'processed');
+        console.log(data);
 
-    if(!processedData) {
-      throw new Error('Something is wrong with the processed data');
-      return;
-    }
+        if(!data) {
+          throw new Error('Something is wrong with filtering data');
+          return;
+        }
 
-    dispatch({
-      payload: processedData,
-      type: DataActionTypes.SET_ALL_DATA
-    });
+        let processedData = processDataPagination<ITableData>(data, pageSize);
+
+        console.log(processedData,'processed');
+
+        if(!processedData) {
+          throw new Error('Something is wrong with the processed data');
+          return;
+        }
+
+        dispatch({
+          payload: processedData,
+          type: DataActionTypes.SET_ALL_DATA
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 };
 

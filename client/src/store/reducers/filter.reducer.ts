@@ -8,7 +8,7 @@ export interface IFilterState {
 const initialState : IFilterState = {
   searchValue: '',
   filterType: {
-    value: 'sender_address',
+    value: 'from',
     name: 'Sender Address'
   }
 };

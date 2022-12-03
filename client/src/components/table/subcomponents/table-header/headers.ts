@@ -8,25 +8,25 @@ export interface IHeaders {
 const headers : IHeaders[] = [
   {
     name: 'Block number',
-    width: '10%',
+    width: '9%',
     maxSize: 10,
     link: ''
   },
   {
     name: 'Transaction ID',
-    width: '12%',
+    width: '11%',
     maxSize: 12,
     link: 'https://etherscan.io/tx/'
   },
   {
     name: 'Sender address',
-    width: '13%',
+    width: '12%',
     maxSize: 13,
     link: ''
   },
   {
     name: "Recipient's address",
-    width: '14%',
+    width: '13%',
     maxSize: 15,
     link: ''
   },
@@ -44,13 +44,13 @@ const headers : IHeaders[] = [
   },
   {
     name: "Value",
-    width: '20%',
+    width: '19%',
     maxSize: 0,
     link: ''
   },
   {
     name: "Transaction Fee",
-    width: '10%',
+    width: '15%',
     maxSize: 0,
     link: ''
   },

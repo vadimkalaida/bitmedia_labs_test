@@ -7,13 +7,21 @@ import axios from '../../api/axios';
 const TableComponent : React.FC = () => {
 
   useEffect(() => {
-    axios.post('get_data')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    // axios.post('get_data')
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //   });
+
+    // axios.get('https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&boolean=true&apikey=Y63RZWY7UHPA61P3AWNNCD3N6UDVZ4R4AX')
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //   });
   }, []);
 
   return(

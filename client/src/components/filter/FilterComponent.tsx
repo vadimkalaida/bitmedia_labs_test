@@ -15,11 +15,11 @@ const FilterComponent = () => {
 
   const filters = [
     {
-      value: 'sender_address',
+      value: 'from',
       name: "Sender Address"
     },
     {
-      value: 'recipient_address',
+      value: 'to',
       name: "Recipient's Address"
     },
     {

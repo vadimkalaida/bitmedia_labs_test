@@ -1,33 +1,49 @@
 const DataSchemaTemplate = require('../models/data.model');
 const axios = require('axios');
 const processEtherScanData = require('../utils/processData.util');
-const etherScanAPI = require('etherscan-api').init('Y63RZWY7UHPA61P3AWNNCD3N6UDVZ4R4AX');
+const getLatestBlock = require('../utils/getLatestBlock.util');
+const filterData = require('../utils/filter.util');
+
+function debounceFunc (callback, delay) {
+  let isDoneBool = true;
+  let myInterval;
+
+  return () => {
+    myInterval = setInterval(() => {
+      if(isDoneBool) {
+        callback(() => isDoneBool = true);
+        isDoneBool = false;
+        console.log('sent');
+      } else {
+        console.log('not sent');
+      }
+    }, delay);
+  }
+}
+
+const getEtherscan = debounceFunc(async (setDoneFunc) => {
+  try {
+    const lastItemOfDB = await DataSchemaTemplate.find().sort({ _id: -1 }).limit(1);
+    const api = await getLatestBlock();
+    const lastEtherScanData = api ? await processEtherScanData(api, lastItemOfDB && lastItemOfDB.length > 0 && lastItemOfDB[0].block_number ? lastItemOfDB[0].block_number : null) : [];
+    await DataSchemaTemplate.insertMany(lastEtherScanData);
+    setDoneFunc();
+  } catch (e) {
+    console.error(e);
+    setDoneFunc();
+  }
+}, 1000);
+
+// getEtherscan();
 
 exports.getData = async (req, res) => {
   try {
-    // const data1 = new DataSchemaTemplate({ block_number: 12057206, transaction_id: '0x0f9aa15ef3f458754d',
-    //   from: '0x9A2C601f2536574', to: '0x12D819E30db2E4325ge34',
-    //   block_confirmations: '54', timestamp: new Date(), value: 0.011354999999999923,
-    //   transaction_fee: 0.007643586
-    // });
-    //
-    // await data1.save();
-    const etherScanResponse = await axios.get(`https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&boolean=true&apikey${ process.env.etherScanAPIKey }`);
+    const { filterType, searchValue } = req.body;
 
-    const latestBlockNumber = await etherScanAPI.proxy.eth_blockNumber();
+    let data = await DataSchemaTemplate.find().sort({ _id: -1 });
+    data = filterType && searchValue ? filterData(data, searchValue, filterType) : data;
 
-    console.log(latestBlockNumber);
-
-    const api = await etherScanAPI.proxy.eth_getBlockByNumber(latestBlockNumber.result);
-    
-    if(etherScanResponse.status !== 200) {
-      res.status(etherScanResponse.status).json({error: etherScanResponse.statusText});
-      return;
-    }
-
-    const data = etherScanResponse && etherScanResponse.data ? processEtherScanData(etherScanResponse.data) : [];
-
-    res.status(200).json({ processed: data, data: etherScanResponse.data, api });
+    res.status(200).json({ transactions: data });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error });
