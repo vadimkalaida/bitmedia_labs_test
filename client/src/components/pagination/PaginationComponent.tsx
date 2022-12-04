@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './PaginationComponent.scss';
 import { ITableData } from "../../types/data.types";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux.hooks";
-import { dataActions } from "../../store/actions/data.action";
+import { dataActions } from "../../store/actions";
 import {bindActionCreators} from "redux";
 import PaginationControlsComponent from "./subcomponents/PaginationControlsComponent/PaginationControlsComponent";
 import usePagination from "../../hooks/pagination.hook";
@@ -15,11 +15,11 @@ export interface ISetDataAdapter {
 
 const PaginationComponent : React.FC = () => {
   const pageSize = 14;
+  useFilterData(pageSize);
+
   const { currentNumber, lengthArr } = usePagination();
 
   const allData : ITableData[][] | null = useAppSelector(state => state.data.allData);
-
-  const filterData = useFilterData(pageSize);
 
   const dispatch = useAppDispatch();
   const { setData } = bindActionCreators(dataActions, dispatch);

@@ -8,13 +8,13 @@ import './MainPage.scss';
 const MainPage : React.FC = () => {
   return(
     <LayoutComponent>
-      <div className="main">
+      <main className="main">
         <div className="container mainContainer">
           <FilterComponent />
           <TableComponent />
           <PaginationComponent />
         </div>
-      </div>
+      </main>
     </LayoutComponent>
   );
 };

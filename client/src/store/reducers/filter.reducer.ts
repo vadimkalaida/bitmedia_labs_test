@@ -1,4 +1,5 @@
 import {FilterActionTypes, IFilter, TFilterAction} from "../../types/filter.types";
+import filters from "../../components/filter/filters";
 
 export interface IFilterState {
   searchValue: string,
@@ -7,7 +8,7 @@ export interface IFilterState {
 
 const initialState : IFilterState = {
   searchValue: '',
-  filterType: {
+  filterType: filters && filters.length > 0 ? filters[0] : {
     value: 'from',
     name: 'Sender Address'
   }

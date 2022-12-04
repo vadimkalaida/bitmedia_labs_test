@@ -1,8 +1,6 @@
 import {Dispatch} from "redux";
 import {DataActionTypes, ITableData, TDataAction} from "../../types/data.types";
-import tableData from "../../components/table/data";
 import processDataPagination from "../../utils/processPaginationData.util";
-import filterData from "../../utils/filter.util";
 import axios from "../../api/axios";
 import { AxiosResponse } from 'axios';
 
@@ -47,8 +45,6 @@ const setAllData = (searchValue : string, filterType : string, pageSize : number
           }
           return myObj as ITableData;
         });
-
-        // const data : ITableData[] = filterData(res.data.transactions, searchValue, filterType as keyof ITableData);
 
         console.log(data);
 

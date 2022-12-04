@@ -30,7 +30,7 @@ const DropDownComponent : React.FC<IDropDownProps> = ({ options, width, height, 
       <div className="dropdown" style={{ minWidth: width, height: height ? height : '100%' }} ref={ dropdownRef } onClick={ () => changeStatusOfDropDown(false) }>
         <p className="dropdownTitle">{ currentFilterType?.name }</p>
         <button className="dropdownButton">
-          <svg viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: `rotate(${ isDropDownExpanded ? '180deg' : '0deg' })` }}>
             <path fillRule="evenodd" clipRule="evenodd" d="M15.6653 0.348093C15.219 -0.116031 14.4953 -0.116031 14.049 0.348093L8 6.63851L1.95098 0.348092C1.50467 -0.116032 0.781049 -0.116032 0.334736 0.348092C-0.111578 0.812217 -0.111578 1.56471 0.334736 2.02884L8 10L15.6653 2.02884C16.1116 1.56471 16.1116 0.812218 15.6653 0.348093Z" fill="#3A80BA"/>
           </svg>
         </button>

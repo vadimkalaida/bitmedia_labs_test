@@ -1,10 +1,6 @@
 import React from 'react';
 import { ISetDataAdapter } from "../../PaginationComponent";
 import usePagination from "../../../../hooks/pagination.hook";
-import {useAppDispatch, useAppSelector} from "../../../../hooks/redux.hooks";
-import {bindActionCreators} from "redux";
-import {dataActions} from "../../../../store/actions/data.action";
-import {ITableData} from "../../../../types/data.types";
 
 interface IPaginationControls {
   setDataAdapterFunc: ISetDataAdapter,
@@ -15,11 +11,6 @@ interface IPaginationControls {
 
 const PaginationControlsComponent: React.FC<IPaginationControls> = ({ setDataAdapterFunc, sliceFirst, sliceSecond, DotsCondition }) => {
   const { currentNumber, lengthArr } = usePagination();
-
-  const allData : ITableData[][] | null = useAppSelector(state => state.data.allData);
-
-  const dispatch = useAppDispatch();
-  const { setData } = bindActionCreators(dataActions, dispatch);
 
   return(
     <>

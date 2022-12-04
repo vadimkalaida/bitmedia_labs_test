@@ -1,8 +1,8 @@
-import {useState, useEffect, useLayoutEffect} from 'react';
+import {useLayoutEffect} from 'react';
 import {IFilter} from "../types/filter.types";
 import {useAppDispatch, useAppSelector} from "./redux.hooks";
 import {bindActionCreators} from "redux";
-import {dataActions} from "../store/actions/data.action";
+import {dataActions} from "../store/actions";
 
 interface IFilterHookReturnObj {
   currentFilter: IFilter,

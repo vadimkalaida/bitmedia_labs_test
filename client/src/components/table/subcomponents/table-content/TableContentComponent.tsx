@@ -4,6 +4,7 @@ import {useAppSelector} from "../../../../hooks/redux.hooks";
 import headers from "../table-header/headers";
 import cutWord from "../../../../utils/cutWord.util";
 import getDate from "../../../../utils/date.util";
+import SuspenseFallBack from "../../../suspense/SuspenseFallBack";
 
 const TableContentComponent = () => {
   const data = useAppSelector(state => state.data.currentData);
@@ -25,7 +26,7 @@ const TableContentComponent = () => {
             </div>
           ) }
         </div>
-      ) : null }
+      ) : <SuspenseFallBack minHeight="448px" CustomHTML={() => <p>Maybe there is no data, if you see this message for too long</p>} /> }
     </div>
   );
 };

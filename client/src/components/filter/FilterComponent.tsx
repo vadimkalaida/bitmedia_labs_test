@@ -5,6 +5,7 @@ import { IFilter } from "../../types/filter.types";
 import { filterActions } from "../../store/actions";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux.hooks";
 import {bindActionCreators} from "redux";
+import filters from "./filters";
 
 const FilterComponent = () => {
   const [ searchValue, setSearchValue ] = useState<string>('');
@@ -12,25 +13,6 @@ const FilterComponent = () => {
   const dispatch = useAppDispatch();
   const filterType : IFilter = useAppSelector(state => state.filter.filterType);
   const { setFilter } = bindActionCreators(filterActions, dispatch);
-
-  const filters = [
-    {
-      value: 'from',
-      name: "Sender Address"
-    },
-    {
-      value: 'to',
-      name: "Recipient's Address"
-    },
-    {
-      value: 'transaction_id',
-      name: 'Transaction ID'
-    },
-    {
-      value: 'block_number',
-      name: 'Block Number'
-    }
-  ];
 
   useEffect(() => {
     if(filterType) setCurrentFilterType(filterType);
