@@ -68,7 +68,7 @@ const PaginationComponent : React.FC = () => {
       </button>
       <div className={`paginationControls ${ shouldMakeAnotherDataRequest ? 'disabled' : '' }`}>
         { currentPage < 10 || lengthArr?.length < 11 ?
-          <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={0} sliceSecond={10} DotsCondition={() => lengthArr?.length > 10 ? <p className="paginationDots">...</p> : null} />
+          <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={0} sliceSecond={10} DotsCondition={() => lengthArr?.length > 10 ? <p className="paginationDots paginationDotsFirst">...</p> : null} />
            :
           <>
             <PaginationControlsComponent setDataAdapterFunc={ setDataAdapter } sliceFirst={0} sliceSecond={3} DotsCondition={() => <p className="paginationDots">...</p>} />

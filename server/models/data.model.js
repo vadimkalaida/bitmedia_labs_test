@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
 
 const DataSchema = new Schema({
@@ -40,7 +39,5 @@ const DataSchema = new Schema({
     unique: true
   }
 });
-
-DataSchema.plugin(AutoIncrement, {inc_field: 'transaction_number'});
 
 module.exports = mongoose.model('Data', DataSchema);
