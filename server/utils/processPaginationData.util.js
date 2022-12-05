@@ -1,19 +1,15 @@
-const processDataPagination = (data, pageSize, currentPage) => {
-  currentPage--;
+const processDataPagination = (data, pageSize, paginationRange, isFilter = false) => {
   let paginationArr = [];
-  let startNum = currentPage - 4 > -1 ? currentPage - 4 : 0;
-  let endNum = currentPage - 4 > -1 ? currentPage + 5 : 9;
-  let iterationNumber = startNum;
+  let iterationNumber = paginationRange.startNum;
 
-  for(let i = startNum * pageSize; i < (endNum + 1) * pageSize - 1; i += pageSize) {
+  for(let i = isFilter ? (paginationRange.startNum * pageSize) : 0; i < isFilter ? (paginationRange.endNum + 1) * pageSize - 1 : data.length; i += pageSize) {
     if(data.slice(i, i + pageSize).length < 1) break;
     paginationArr.push({data: data.slice(i, i + pageSize), pageNumber: iterationNumber});
     iterationNumber++;
     if(i > data.length) break;
   }
 
-
-  return { data: paginationArr, range: { startNum, endNum } };
+  return { data: paginationArr };
 };
 
 module.exports = processDataPagination;

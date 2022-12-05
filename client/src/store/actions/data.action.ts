@@ -61,7 +61,7 @@ const setAllData = (searchValue : string, filterType : string, pageSize : number
             pageNumber: transaction.pageNumber, data: transaction.data.map(item => {
               let myObj : ITableData | {} = {};
               for(const key in item) {
-                if(key !== '__v' && key !== '_id') Object.assign(myObj, { [key]: item[key as keyof typeof item] });
+                if(key !== '__v' && key !== '_id' && key !== 'transaction_number') Object.assign(myObj, { [key]: item[key as keyof typeof item] });
               }
               return myObj as ITableData;
             })

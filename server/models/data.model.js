@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
 
 const DataSchema = new Schema({
@@ -34,6 +35,12 @@ const DataSchema = new Schema({
     type: Number,
     required: true
   },
+  transaction_number: {
+    type: Number,
+    unique: true
+  }
 });
+
+DataSchema.plugin(AutoIncrement, {inc_field: 'transaction_number'});
 
 module.exports = mongoose.model('Data', DataSchema);

@@ -20,7 +20,12 @@ const getEtherscan = debounceFunc(async (setDoneFunc) => {
   try {
     const lastItemOfDB = await DataSchemaTemplate.find().sort({ _id: -1 }).limit(1);
     const api = await getLatestBlock();
-    const lastEtherScanData = api ? await processEtherScanData(api, lastItemOfDB && lastItemOfDB.length > 0 && lastItemOfDB[0].block_number ? lastItemOfDB[0].block_number : null) : [];
+    const lastEtherScanData = api ? (lastItemOfDB && lastItemOfDB.length > 0 ?
+        await processEtherScanData(api, lastItemOfDB[0].block_number ? lastItemOfDB[0].block_number : null,
+          lastItemOfDB[0].transaction_number !== undefined ? lastItemOfDB[0].transaction_number : null) :
+        await processEtherScanData(api, null, null)
+      )
+      : [];
     await DataSchemaTemplate.insertMany(lastEtherScanData);
     setDoneFunc();
   } catch (e) {
