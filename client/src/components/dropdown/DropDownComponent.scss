@@ -72,3 +72,33 @@
     border-bottom-right-radius: 10px;
   }
 }
+
+@media (max-width: 580px) {
+  .dropdown {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+  .dropdownTitle {
+    padding-right: 5px;
+    font-size: 12px;
+    word-wrap: break-word;
+  }
+  .dropdownButton {
+    width: 28px;
+    & svg {
+      width: 20px;
+    }
+  }
+  .dropdownExpandedItem {
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 460px) {
+  .dropdown {
+    min-width: auto !important;
+    width: 120px !important;
+  }
+}

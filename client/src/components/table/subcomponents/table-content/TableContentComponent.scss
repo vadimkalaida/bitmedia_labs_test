@@ -1,5 +1,5 @@
 .tableContent {
-  width: 100%;
+  width: 1240px;
   min-height: 448px;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background: rgba(58,128,186, .01);
-  overflow: hidden;
+  overflow: auto;
 }
 
 .tableRow {
@@ -36,11 +36,18 @@
 .tableItemParagraph {
   padding: 0;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   color: #1A1A1A;
   &.link {
     cursor: pointer;
     color: #3A80BA;
     text-decoration: underline;
+  }
+}
+
+@media(max-width: 600px) {
+  .noDataParagraph {
+    font-size: 14px;
+    max-width: 320px;
   }
 }

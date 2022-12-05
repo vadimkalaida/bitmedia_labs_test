@@ -61,3 +61,36 @@
     }
   }
 }
+
+@media (max-width: 900px) {
+  .filterForm {
+    height: 38px;
+  }
+  .filterInput {
+    width: 200px;
+  }
+  .filterButton {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    & svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+@media (max-width: 580px) {
+  .filterInput {
+    width: 160px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 460px) {
+  .filterInput {
+    width: 130px;
+    font-size: 12px;
+  }
+}
+

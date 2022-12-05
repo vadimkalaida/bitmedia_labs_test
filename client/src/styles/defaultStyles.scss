@@ -3,3 +3,16 @@
   padding-left: 35px;
   padding-right: 35px;
 }
+
+@media(max-width: 1309px) {
+  .container {
+    width: 100%;
+  }
+}
+
+@media(max-width: 560px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

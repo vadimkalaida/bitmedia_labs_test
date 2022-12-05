@@ -25,3 +25,22 @@
 .footerText {
   font-size: 16px;
 }
+
+@media(max-width: 670px) {
+  .footerContainer {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+  }
+  .footerLogo {
+    margin-bottom: 5px !important;
+  }
+}
+
+@media(max-width: 380px) {
+  .footerText {
+    font-size: 15px;
+  }
+}

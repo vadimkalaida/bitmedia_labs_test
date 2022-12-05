@@ -5,4 +5,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  overflow-x: auto;
+}
+
+@media(max-width: 1309px) {
+  .table {
+    align-items: flex-start;
+  }
 }

@@ -32,25 +32,25 @@ const headers : IHeaders[] = [
   },
   {
     name: "Block confirmations",
-    width: '11%',
-    maxSize: 0,
-    link: ''
-  },
-  {
-    name: "Date",
     width: '10%',
     maxSize: 0,
     link: ''
   },
   {
+    name: "Date",
+    width: '11%',
+    maxSize: 0,
+    link: ''
+  },
+  {
     name: "Value",
-    width: '19%',
+    width: '17%',
     maxSize: 0,
     link: ''
   },
   {
     name: "Transaction Fee",
-    width: '15%',
+    width: '17%',
     maxSize: 0,
     link: ''
   },

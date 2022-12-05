@@ -5,4 +5,13 @@
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  overflow: hidden;
+}
+
+@media(max-width: 1209px) {
+  .suspense {
+    position: absolute;
+    text-align: center;
+    left: 0;
+  }
 }

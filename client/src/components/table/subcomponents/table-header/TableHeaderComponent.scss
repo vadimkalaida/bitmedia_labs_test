@@ -1,11 +1,12 @@
 .tableHeader {
-  width: 100%;
+  width: 1240px;
   height: 48px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   background: #3A80BA;
   display: flex;
   align-items: center;
+  overflow: auto;
 }
 
 .tableHeaderItem {
@@ -16,6 +17,7 @@
   border-right: 1px solid #fff;
   display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
 .tableHeaderItem:last-child {
