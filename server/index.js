@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 require('./routes')(app);
 
 // Get EtherScanData
-getEtherscan();
+// getEtherscan();
 
 mongoose
   .connect(process.env.mongoURI, () => {

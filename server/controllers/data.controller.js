@@ -1,28 +1,21 @@
 const DataSchemaTemplate = require('../models/data.model');
-const filterData = require('../utils/filter.util');
-
-// exports.getData = async (req, res) => {
-//   try {
-//     const { filterType, searchValue } = req.body;
-//
-//     let data = await DataSchemaTemplate.find().sort({ _id: -1 });
-//     data = filterType && searchValue ? filterData(data, searchValue, filterType) : data;
-//
-//     res.status(200).json({ transactions: data });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error });
-//   }
-// };
+const processDataPagination = require('../utils/processPaginationData.util');
 
 exports.getData = async (req, res) => {
   try {
     const { filterType, searchValue } = req.body;
+    const pageSize = !req.body.pageSize ? 14 : req.body.pageSize;
+    const currentPage = !req.body.currentPage ? 1 : req.body.currentPage;
 
-    let data = await DataSchemaTemplate.find().sort({ _id: -1 });
-    data = filterType && searchValue ? filterData(data, searchValue, filterType) : data;
+    let mongoData = await DataSchemaTemplate.find({
+      [filterType]: {
+        $regex: new RegExp('^' + searchValue, 'i')
+      }
+    });
 
-    res.status(200).json({ transactions: data });
+    let data = processDataPagination(mongoData, pageSize, currentPage);
+
+    res.status(200).json({ transactions: data.data, paginationRange: data.range, pagesNumber: Math.ceil(mongoData.length / pageSize) });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error });

@@ -53,4 +53,11 @@
     width: 16px;
     height: 16px;
   }
+  &.disabled {
+    pointer-events: none;
+    background: #EDEDED;
+    & svg path {
+      fill: #1A1A1A;
+    }
+  }
 }

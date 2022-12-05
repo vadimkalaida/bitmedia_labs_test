@@ -12,12 +12,13 @@ interface IFilterHookReturnObj {
 const useFilterData = (pageSize : number) : IFilterHookReturnObj => {
   const currentFilter : IFilter = useAppSelector(state => state.filter.filterType);
   const searchVal : string = useAppSelector(state => state.filter.searchValue);
+  const currentNumber : number = useAppSelector(state => state.data.currentPage);
 
   const dispatch = useAppDispatch();
   const { setAllData } = bindActionCreators(dataActions, dispatch);
 
   useLayoutEffect(() => {
-    setAllData(searchVal, currentFilter.value, pageSize);
+    setAllData(searchVal, currentFilter.value, pageSize, currentNumber, true);
   }, [currentFilter, searchVal]);
 
   return {

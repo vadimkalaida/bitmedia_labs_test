@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import {useAppSelector} from "./redux.hooks";
 import convertNumberToArray from "../utils/convertNumberToArray.util";
+import { IPaginationRange } from "../store/actions";
 
 const usePagination = () => {
   const [ lengthArr, setLengthArr ] = useState<number[] | null>(null);
-  const currentNumber : number = useAppSelector(state => state.data.currentPage);
+  const currentPage : number = useAppSelector(state => state.data.currentPage);
   const length : number = useAppSelector(state => state.data.pagesNumber);
+  const paginationRange : IPaginationRange = useAppSelector(state => state.data.paginationRange);
 
   useEffect(() => {
     if(!isNaN(length)) {
@@ -14,7 +16,7 @@ const usePagination = () => {
     }
   }, [length]);
 
-  return { currentNumber, lengthArr };
+  return { currentPage, lengthArr, shouldMakeAnotherDataRequest: (paginationRange.startNum >= currentPage) || paginationRange.endNum <= currentPage };
 };
 
 export default usePagination;
