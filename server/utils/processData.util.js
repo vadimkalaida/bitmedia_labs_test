@@ -1,5 +1,5 @@
 const web3Utils = require('web3-utils');
-const etherScanAPI = require('etherscan-api').init(process.env.etherScanAPIKey);
+const etherScanAPI = require('etherscan-api').init(process.env.ETHER_SCAN_API_KEY);
 
 const processItem = async(item, dataToProcess, previousBlockNumber) => {
   try {

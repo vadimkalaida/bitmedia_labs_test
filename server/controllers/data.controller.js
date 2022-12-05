@@ -7,11 +7,16 @@ exports.getData = async (req, res) => {
     const pageSize = !req.body.pageSize ? 14 : req.body.pageSize;
     const currentPage = !req.body.currentPage ? 1 : req.body.currentPage;
 
-    let mongoData = await DataSchemaTemplate.find({
-      [filterType]: {
-        $regex: new RegExp('^' + searchValue, 'i')
-      }
-    });
+    let mongoData;
+    if(searchValue.length < 1) {
+      mongoData = await DataSchemaTemplate.find().sort({ _id: -1 });
+    } else {
+      mongoData = await DataSchemaTemplate.find({
+        [filterType]: {
+          $regex: new RegExp('^' + searchValue, 'i')
+        }
+      }).sort({ _id: -1 });
+    }
 
     let data = processDataPagination(mongoData, pageSize, currentPage);
 

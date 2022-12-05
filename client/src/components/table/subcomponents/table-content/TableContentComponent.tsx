@@ -26,7 +26,7 @@ const TableContentComponent = () => {
             </div>
           ) }
         </div>
-      ) : <SuspenseFallBack minHeight="448px" CustomHTML={() => <p className="noDataParagraph">Maybe there is no data, if you see this message for too long</p>} /> }
+      ) : <SuspenseFallBack minHeight="448px" CustomHTML={() => <p className="noDataParagraph">Maybe there is no data, if you see this message for too long. However, it can take a good amount of time to get it since there is a lot of data</p>} /> }
     </div>
   );
 };

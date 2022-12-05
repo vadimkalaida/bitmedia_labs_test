@@ -11,9 +11,6 @@ function debounceFunc (callback, delay) {
       if(isDoneBool) {
         callback(() => isDoneBool = true);
         isDoneBool = false;
-        console.log('sent');
-      } else {
-        console.log('not sent');
       }
     }, delay);
   }
