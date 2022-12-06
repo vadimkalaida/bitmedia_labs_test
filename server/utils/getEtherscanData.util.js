@@ -18,11 +18,11 @@ function debounceFunc (callback, delay) {
 
 const getEtherscan = debounceFunc(async (setDoneFunc) => {
   try {
-    const lastItemOfDB = await DataSchemaTemplate.find().sort({ _id: -1 }).limit(1);
+    const lastItemOfDB = await DataSchemaTemplate.find().sort({ _id: -1 }).limit(2);
     const api = await getLatestBlock();
     const lastEtherScanData = api ? (lastItemOfDB && lastItemOfDB.length > 0 ?
         await processEtherScanData(api, lastItemOfDB[0].block_number ? lastItemOfDB[0].block_number : null,
-          lastItemOfDB[0].transaction_number !== undefined ? lastItemOfDB[0].transaction_number : null) :
+          lastItemOfDB[0].transaction_number !== undefined ? lastItemOfDB[0].transaction_number : lastItemOfDB[1].transaction_number !== undefined ? lastItemOfDB[1].transaction_number : null) :
         await processEtherScanData(api, null, null)
       )
       : [];

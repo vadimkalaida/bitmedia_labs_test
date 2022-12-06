@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 require('./routes')(app);
 
 // Get EtherScanData
-getEtherscan();
+// getEtherscan();
 
 const port = process.env.PORT || 8080;
 
